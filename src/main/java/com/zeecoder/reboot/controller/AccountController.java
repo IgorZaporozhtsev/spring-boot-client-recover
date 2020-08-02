@@ -29,37 +29,4 @@ public class AccountController {
         model.addAttribute("accounts", accounts);
         return "account";
     }
-
-    @GetMapping("/showAddForm")
-    public String showRoles(Model model) {
-        model.addAttribute("account", new Account());
-        return "add-account";
-    }
-
-    @PostMapping("/add")
-    public String addAccount(@ModelAttribute("account") Account account, @RequestParam String role)  {
-        service.add(account, role);
-        return "redirect:/account";
-    }
-
-    @GetMapping("/showUpdateForm/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Optional<Account> account = service.getOne(id);
-        model.addAttribute("account", account);
-        return "update-account";
-    }
-
-    @PostMapping("/update")
-    public String update(Account account, Model model) {
-        service.update(account);
-        model.addAttribute("accounts", service.getAll());
-        return "redirect:/account";
-    }
-
-    @GetMapping(value = "/delete/{id}")
-    public String delete(@PathVariable(value = "id")  Long id) {
-        service.delete(id);
-        return "redirect:/account";
-    }
-
 }

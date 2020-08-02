@@ -8,6 +8,7 @@ public interface AccountService {
 
     List<Account> getAll();
 
+/*
     void add(Account account, String role);
 
     Optional<Account> getOne(Long id);
@@ -17,5 +18,6 @@ public interface AccountService {
     void delete(Long id);
 
     Account findByName(String nickname);
+*/
 
 }

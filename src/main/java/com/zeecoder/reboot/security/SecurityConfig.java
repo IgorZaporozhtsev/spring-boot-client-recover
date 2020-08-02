@@ -1,3 +1,4 @@
+/*
 package com.zeecoder.reboot.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +58,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-}
+}*/
