@@ -1,4 +1,3 @@
-/*
 package com.zeecoder.reboot.security;
 
 import org.springframework.security.core.AuthenticationException;
@@ -20,4 +19,3 @@ public class AuthFailureHandlerImpl implements AuthenticationFailureHandler {
     }
 }
 
-*/

@@ -1,12 +1,11 @@
 package com.zeecoder.reboot.model;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "account")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
-public class Account /*implements UserDetails */{
+public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -38,7 +37,7 @@ public class Account /*implements UserDetails */{
         this.roles = roles;
     }
 
-    /* @Override
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
@@ -66,5 +65,5 @@ public class Account /*implements UserDetails */{
     @Override
     public boolean isEnabled() {
         return isActive();
-    }*/
+    }
 }

@@ -2,9 +2,8 @@ package com.zeecoder.reboot.model;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-//import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
-import java.util.Set;
 
 @NoArgsConstructor
 @Setter
@@ -12,7 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "role")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@roleId")
-public class Role /*implements GrantedAuthority*/ {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,8 +23,8 @@ public class Role /*implements GrantedAuthority*/ {
     @JoinColumn(name = "account_id")
     Account account;
 
-/*@Override
+    @Override
     public String getAuthority() {
         return getRole();
-    }*/
+    }
 }

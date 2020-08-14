@@ -1,13 +1,12 @@
 
 package com.zeecoder.reboot.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.zeecoder.reboot.model.Account;
 import com.zeecoder.reboot.model.Role;
+import com.zeecoder.reboot.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,11 +17,19 @@ public class AccountServiceImpl implements AccountService {
 
     private final String url = "http://localhost:8080/account";
     private final RestTemplate restTemplate;
+    private final PasswordEncoder passwordEncoder;
+    private final AccountRepository repository;
 
     @Autowired
-    public AccountServiceImpl(RestTemplate restTemplate) {
+    public AccountServiceImpl(
+            @Lazy PasswordEncoder passwordEncoder,
+            RestTemplate restTemplate,
+            AccountRepository repository) {
+        this.passwordEncoder = passwordEncoder;
         this.restTemplate = restTemplate;
+        this.repository = repository;
     }
+
 
     @Override
     public List<Account> getAll() {
@@ -32,6 +39,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void add(Account account, String roleStr) {
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         Set<Role> roles = collectRolesToSet(account, roleStr);
         account.setRoles(roles);
         restTemplate.postForObject(url + "/add", account, Account.class);
@@ -54,8 +62,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account findByName(String nickname) {
-        Account account = restTemplate.getForObject(url, Account.class);
-        return account;
+        return repository.findByNickname(nickname);
     }
 
     private Set<Role> collectRolesToSet(Account account, String roleStr){
