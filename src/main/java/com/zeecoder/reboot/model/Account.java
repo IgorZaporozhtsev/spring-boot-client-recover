@@ -1,23 +1,21 @@
 package com.zeecoder.reboot.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode(of = "id")
 @Setter
 @Getter
 @Entity
 @Table(name = "account")
-public class Account /*implements UserDetails */{
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
+public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -32,11 +30,14 @@ public class Account /*implements UserDetails */{
     @Column
     private boolean active;
 
-    @JsonBackReference
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 
-   /* @Override
+    public Account(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
@@ -64,5 +65,5 @@ public class Account /*implements UserDetails */{
     @Override
     public boolean isEnabled() {
         return isActive();
-    }*/
+    }
 }

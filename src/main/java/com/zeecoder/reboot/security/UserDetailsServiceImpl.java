@@ -1,4 +1,3 @@
-/*
 package com.zeecoder.reboot.security;
 
 import com.zeecoder.reboot.service.AccountService;
@@ -7,8 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -31,4 +28,3 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User(derivedAccount.getUsername(), derivedAccount.getPassword(), derivedAccount.getAuthorities());
     }
 }
-*/
