@@ -1,11 +1,13 @@
 
 package com.zeecoder.reboot.service;
 
+import com.zeecoder.reboot.dto.AccountListDto;
 import com.zeecoder.reboot.model.Account;
 import com.zeecoder.reboot.model.Role;
 import com.zeecoder.reboot.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,11 +35,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public List<Account> getAll() {
-        List<Account> accounts = restTemplate.getForObject(url, List.class);
+        //List<Account> accounts = restTemplate.getForObject(url, AccountListDto.class).getAccountList();
+        List<Account> accounts = Arrays.asList(restTemplate.getForObject(url, Account[].class));
         return accounts;
+
     }
 
     @Override
+
     public void add(Account account, String roleStr) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         Set<Role> roles = collectRolesToSet(account, roleStr);
@@ -73,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
         for (String s: roleStrings) {
             Role role = new Role();
             role.setRole(s);
-            role.setAccount(account);
+            //role.setAccount(account);
             rolesSet.add(role);
         }
 
