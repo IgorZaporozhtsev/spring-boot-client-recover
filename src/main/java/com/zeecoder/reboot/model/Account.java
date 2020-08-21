@@ -15,7 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "account")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
-public class Account implements UserDetails {
+public class Account implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,8 +30,21 @@ public class Account implements UserDetails {
     @Column
     private boolean active;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "account_to_role",
+            joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role) {
+        roles.add( role );
+        role.getAccount().add(this);
+    }
+
+    public void removeRole(Role role) {
+        roles.remove(role);
+        role.getAccount().remove(this);
+    }
 
     public Account(Set<Role> roles) {
         this.roles = roles;
