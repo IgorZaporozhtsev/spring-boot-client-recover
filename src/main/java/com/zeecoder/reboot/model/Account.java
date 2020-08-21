@@ -14,7 +14,6 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "account")
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@accountId")
 public class Account implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
