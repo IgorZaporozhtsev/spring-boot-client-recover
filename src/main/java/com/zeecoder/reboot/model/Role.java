@@ -20,7 +20,7 @@ public class Role implements GrantedAuthority {
     @Column
     private String role;
 
-    //@JsonIgnore
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<Account> account = new HashSet<>();
 
