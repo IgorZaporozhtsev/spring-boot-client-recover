@@ -4,13 +4,15 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 @Table(name = "role")
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@roleId")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@roleId")
 public class Role implements GrantedAuthority {
 
     @Id
@@ -19,9 +21,9 @@ public class Role implements GrantedAuthority {
     @Column
     private String role;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    Account account;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private Set<Account> account = new HashSet<>();
 
     @Override
     public String getAuthority() {
