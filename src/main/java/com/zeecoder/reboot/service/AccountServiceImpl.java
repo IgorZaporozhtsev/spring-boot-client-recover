@@ -42,7 +42,7 @@ public class AccountServiceImpl implements AccountService {
 
     public void add(Account account, String roleStr) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        Set<Role> roles = collectRolesToSet(account, roleStr);
+        Set<Role> roles = collectRolesToSet(roleStr);
         account.setRoles(roles);
         restTemplate.postForObject(url + "/add", account, Account.class);
     }
@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
         return repository.findByNickname(nickname);
     }
 
-    private Set<Role> collectRolesToSet(Account account, String roleStr){
+    private Set<Role> collectRolesToSet(String roleStr){
 
         String[] roleStrings = roleStr.split("\\s*,\\s*");
         Set<Role> rolesSet = new HashSet<>();
@@ -70,7 +70,6 @@ public class AccountServiceImpl implements AccountService {
         for (String s: roleStrings) {
             Role role = new Role();
             role.setRole(s);
-            //role.setAccount(account);
             rolesSet.add(role);
         }
 
