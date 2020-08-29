@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
 
         for (String s: roleStrings) {
             Role role = new Role();
-            role.setRole(s);
+            role.setRoleName(s);
             rolesSet.add(role);
         }
 
