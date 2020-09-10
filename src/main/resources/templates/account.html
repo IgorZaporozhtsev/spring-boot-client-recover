@@ -50,7 +50,7 @@
                                     <thead>
                                     <tr>
                                         <th scope="col">id</th>
-                                        <th scope="col">firs name</th>
+                                        <th scope="col">first_name</th>
                                         <th scope="col">nickname</th>
                                         <th scope="col">email</th>
                                         <th scope="col">password</th>
@@ -61,7 +61,7 @@
                                     <tbody>
                                     <tr th:each="account:${accounts}">
                                         <td th:text="${account.id}"></td>
-                                        <td th:text="${account.first_name}"></td>
+                                        <td th:text="${account.firstName}"></td>
                                         <td th:text="${account.nickname}"></td>
                                         <td th:text="${account.email}"></td>
                                         <td th:text="${account.password}"></td>
@@ -82,6 +82,7 @@
                             <p><h5 class="card-title">Add new Account</h5></p>
                             <!-- Add Account page -->
                             <div th:replace="add-account :: add-page" class="addForm"></div>
+
                         </div>
                     </div>
                 </div>
@@ -94,6 +95,8 @@
     </div>
 
 </div>
+
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

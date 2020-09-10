@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode
 @NoArgsConstructor
 @Setter
 @Getter
@@ -21,8 +22,12 @@ public class Role implements GrantedAuthority {
     private String roleName;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.MERGE)
     private Set<Account> account = new HashSet<>();
+
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
 
     @Override
     public String getAuthority() {
