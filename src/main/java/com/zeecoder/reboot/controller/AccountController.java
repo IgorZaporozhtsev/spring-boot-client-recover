@@ -4,9 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zeecoder.reboot.model.Account;
 import com.zeecoder.reboot.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -22,14 +27,31 @@ public class AccountController {
     }
 
     @GetMapping
-    public String getAll(Model model) {
+    public String getAll(Account account, Model model) {
         List<Account> accounts = service.getAll();
         model.addAttribute("accounts", accounts);
+        model.addAttribute("account", account);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String name;
+        if (principal instanceof UserDetails) {
+            name = ((UserDetails)principal).getUsername();
+        } else {
+            name = principal.toString();
+        }
+
+        String message = "Welcome " + name;
+        model.addAttribute("message", message);
+
         return "account";
     }
 
     @PostMapping("/add")
-    public String addAccount(@ModelAttribute("account") Account account, @RequestParam String role) throws JsonProcessingException {
+    public String addAccount(@Valid @ModelAttribute("account") Account account, BindingResult result, @RequestParam String role) throws JsonProcessingException {
+        if (result.hasErrors()) {
+            return "redirect:/account";
+        }
         service.add(account, role);
         return "redirect:/account";
     }

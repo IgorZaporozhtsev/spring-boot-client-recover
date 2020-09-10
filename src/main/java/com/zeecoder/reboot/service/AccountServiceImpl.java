@@ -58,8 +58,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account findByName(String nickname) {
-        return repository.findByNickname(nickname);
+    public Account findByFirstName(String firstName) {
+        return repository.findByFirstName(firstName);
     }
 
     private Set<Role> collectRolesToSet(String roleStr){
